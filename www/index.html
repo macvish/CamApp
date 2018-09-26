@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Cam App</title>
+        
+        <style type='text/css'>
+        body{
+        	border: thick;
+			border-color: #c0c0c0c0;
+        }
+		#snapPicture {
+			background-color: #4CAF50;
+			border: none;
+			border-radius: 10px;
+			padding: 15px 32px;
+    		text-align: center;
+    		text-decoration: none;
+    		display: inline-block;
+			size: 70px;
+			font-size: 25px;
+			-webkit-transition-duration: 0.4s; /* Safari */
+    		transition-duration: 0.4s;
+		}
+		#getPicture {
+			background-color: #008CBA;
+			border: none;
+			border-radius: 10px;
+		 	padding: 15px 32px;
+    		text-align: center;
+    		text-decoration: none;
+    		display: inline-block;
+			size: 70px;
+			font-size: 25px;
+			-webkit-transition-duration: 0.4s; /* Safari */
+    		transition-duration: 0.4s;
+		}
+		#snapPicture:hover {
+			background-color: #008CBA; /* Green */
+    		color: white;
+		}
+		#getPicture:hover {
+			background-color: #4CAF50; /* Green */
+    		color: white;
+		}
+
+		</style>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script>
+   		window.onload = function()
+   		{
+      		document.addEventListener("deviceready", init, false);
+   		}
+   		function init()
+   		{
+     		document.getElementById("snapPicture").addEventListner("click", captureImage, false);
+     		document.getElementById("getPicture").addEventListner("click", getImage, false);
+   		}
+   		function captureImage()
+		{
+  			navigator.camera.getPicture(onCaptureSuccess, onCaptureFailure, { quality: 70 });
+		}
+		function onSuccess(imageData) 
+		{
+  			var myImage = document.getElementById('myPhoto');
+  			myImage.style.display = 'block';
+  			myImage.src = "data:image/jpeg;base64," + imageData;
+		}
+		function onCaptureFailure(message) 
+		{
+  			alert('Could not take the photo: ' + message);
+		}
+		function getImage()
+		{
+  			navigator.camera.getPicture(onGetSuccess, onGetFailure, { 
+  			destinationType: destinationType.FILE_URI,
+  			sourceType: pictureSource.PHOTOLIBRARY });
+		}
+		function onGetSuccess(imageURI)
+		{
+  			var getImg = document.getElementById('getPhoto');
+  			getImg.style.display = 'block';
+  			getImg.src = imageURI;
+		}
+		function onGetFailure(message) 
+		{
+  			alert('Could not get the photo: ' + message);
+		}
+
+	</script>
+    </head>
+    <body>
+    <button id="snapPicture">Take Picture</button>
+	<button id="getPicture">Get Picture</button><br/>
+	<img style="display:none;width:70px;height:70px;" id="myPhoto" src=""/>
+	<img style="display:none;" id="getPhoto" src=""/>
+    </body>
+</html>
